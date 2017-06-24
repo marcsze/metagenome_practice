@@ -29,15 +29,15 @@ for files in d_files
 end
 
 # Convert sra to fastq files (F and R)
-#for sample in readdir(WORKDIR)
-    
- #   if contains(sample, "sra")
+for sample in readdir(WORKDIR)
 
- #       run(`fastq-dump --split-files $WORKDIR/$sample -O $WORKDIR`)
+    if contains(sample, "sra")
+
+       run(`fastq-dump --split-files $WORKDIR/$sample -O $WORKDIR`)
     
- #   end
+    end
     
-#end
+end
 
 
 #run(`$fastx -t 33 -Q 30 -l 75 -i $WORKDIR/ERR478975_1.fastq -o $WORKDIR/test_1`)
