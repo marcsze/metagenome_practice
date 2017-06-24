@@ -11,4 +11,14 @@ This may set up usage for downstream analysis of metageomes for future projects.
 and improvements from others within this area.
 
 
+**Languages Used**
+
+* Julia v0.5.2
+* Bash
+
+**Needed Programs**
+
+* sra tool kit v2.8.2-1
+* aspera download client
+* fastx v0.0.13 (open to alternatives that do a similar job)
 
