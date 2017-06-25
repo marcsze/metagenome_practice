@@ -21,23 +21,23 @@ d_files = ["ERR478975", "ERR478971", "ERR478968", "ERR478984",
 "ERR478989", "ERR478976", "ERR478980", "ERR478964", "ERR478962", "ERR478960"]
 
 # Download needed files from the SRA
-#for files in d_files
+for files in d_files
 
-#    run(`ascp -QTr -k 1 -l 1G -i $asp $sra_nih/$database/$seq_dir/$study/$files/ $WORKDIR`) 
-#    run(pipeline(`mv $WORKDIR$files/$files.sra $WORKDIR`, `rm -r $WORKDIR$files`))
+    run(`ascp -QTr -k 1 -l 1G -i $asp $sra_nih/$database/$seq_dir/$study/$files/ $WORKDIR`) 
+    run(pipeline(`mv $WORKDIR$files/$files.sra $WORKDIR`, `rm -r $WORKDIR$files`))
 
-#end
+end
 
 # Convert sra to fastq files (F and R)
-#for sample in readdir(WORKDIR)
+for sample in readdir(WORKDIR)
 
-#    if contains(sample, "sra")
+    if contains(sample, "sra")
 
-#       run(`fastq-dump --split-files $WORKDIR/$sample -O $WORKDIR`)
+       run(`fastq-dump --split-files $WORKDIR/$sample -O $WORKDIR`)
     
-#    end
+    end
     
-#end
+end
 
 
 # Quality filter and toss out reads that don't make the cut 
