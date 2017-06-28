@@ -44,15 +44,15 @@ for sample in d_files
     # Map sequences to human (hg19)
     #run(`bowtie2 -x hg19 -1 $WORKDIR$sample'_qf_1.fastq' -2 $WORKDIR$sample'_qf_2.fastq' -S $WORKDIR$sample'_map_unmap.sam'`)
     # Convert files to bam
-    run(`samtools view -bS $WORKDIR$sample'_map_unmap.sam' > $WORKDIR$sample'_map_unmap.bam'`)
+    run(pipeline(`samtools view -bS $WORKDIR$sample'_map_unmap.sam'`, "$WORKDIR$sample.map_unmap.bam"))
     
     # Filter unmapped pairs
-    run(`samtools view -b -f 12 -F 256 $WORKDIR$sample'_map_unmap.bam' > $WORKDIR$sample'_bothends_unmap.bam'`)
+    run(pipeline(`samtools view -b -f 12 -F 256 $WORKDIR$sample.map_unmap.bam`, "$WORKDIR$sample.bothends_unmap.bam"))
         # -f 12 = Extract only (-f) alignments with both reads unmapped: <read unmapped><mate unmapped>
         # -F 256 = Do not(-F) extract alignments which are: <not primary alignment>
     
     # split paired-ends reads into separated fastq d_files
-    run(`samtools sort -n $WORKDIR$sample'_bothends_unmap.bam' $WORKDIR$sample'_bothends_unmap_sorted.bam'`)
+    run(`samtools sort -n $WORKDIR$sample.bothends_unmap.bam $WORKDIR$sample'_bothends_unmap_sorted.bam'`)
     run(`bedtools bamtofastq -i $WORKDIR$sample'_bothends_unmap_sorted.bam' -fq $WORKDIR$sample'_hrm_r1.fastq' -fq2 $WORKDIR$sample'_hrm_r2.fastq'`)
 end
 
