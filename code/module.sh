@@ -9,5 +9,6 @@ module load samtools/1.3.1
 module load bowtie2/2.1.0
 module load sickle/1.33.6
 
-
+# Control pathing
+export BOWTIE2_INDEXES=/nfs/turbo/schloss-lab/msze/active_projects/metagenome_practice/data/references
 
