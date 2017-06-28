@@ -43,7 +43,7 @@ end
 # Map sequences to human (hg19)
 for sample in d_files
 
-    run(`bowtie2 -x hg19 -1 $WORKDIR$d_files'_qf_1.fastq' -2 $WORKDIR$d_files'_qf_2.fastq' -S $WORKDIR$d_files'_map_unmap.sam'`)
+    run(`bowtie2 -x hg19 -1 $WORKDIR$sample'_qf_1.fastq' -2 $WORKDIR$sample'_qf_2.fastq' -S $WORKDIR$sample'_map_unmap.sam'`)
 
 end
 
