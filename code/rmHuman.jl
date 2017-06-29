@@ -52,8 +52,12 @@ for sample in d_files
         # -F 256 = Do not(-F) extract alignments which are: <not primary alignment>
     
     # split paired-ends reads into separated fastq d_files
-    run(`samtools sort -n $WORKDIR$sample.bothends_unmap.bam $WORKDIR$sample'_bothends_unmap_sorted.bam'`)
+    run(`samtools sort -n $WORKDIR$sample.bothends_unmap.bam -o $WORKDIR$sample'_bothends_unmap_sorted.bam'`)
     run(`bedtools bamtofastq -i $WORKDIR$sample'_bothends_unmap_sorted.bam' -fq $WORKDIR$sample'_hrm_r1.fastq' -fq2 $WORKDIR$sample'_hrm_r2.fastq'`)
+
+    # Remove intermediary files
+    run(`rm $WORKDIR$sample.map_unmap.bam $WORKDIR$sample.bothends_unmap.bam $WORKDIR$sample'_bothends_unmap_sorted.bam'`)
+
 end
 
 
