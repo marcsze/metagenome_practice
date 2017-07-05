@@ -20,18 +20,47 @@ file_suffix = "_hrm_r2.fastq"
 test = Dict()
 
 # Overall loop to calculate seq counts
-for sample in d_files
+#for sample in d_files
 
     # aggregate all lines with "@" and save these lines to a temp file
-    run(pipeline(`grep '^@' $WORKDIR/$sample$file_suffix`, "$WORKDIR/test.txt"))
+#    run(pipeline(`grep '^@' $WORKDIR/$sample$file_suffix`, "$WORKDIR/test.txt"))
 
     # get total counts of sequences by counting lines in temp file
-    test[sample] = countlines("$WORKDIR/test.txt")
+#    test[sample] = countlines("$WORKDIR/test.txt")
 
     # Remove the temporary file
-    run(`rm $WORKDIR/test.txt`)
+#    run(`rm $WORKDIR/test.txt`)
 
+#end
+
+
+# COunter is not working need to figure out how to make it work 
+# Also counting on the @ is not good need to start with @
+
+for sample in d_files
+
+    counter = 0
+    f = open("$WORKDIR/$sample$file_suffix");
+    
+    for ln in eachline(f)
+        
+        println(ln)
+
+        if contains("@", ln)
+            
+            counter += 1
+        end
+    end
+    
+    close(f)
+
+    test[sample] = counter
 end
+
+
+
+
+
 
 # Create empty vector to hold counts
 total_counts = []
@@ -49,7 +78,7 @@ test2 = DataFrame(  Samples = d_files,
                     Seq_counts  = total_counts)
 
 # Save the results to the working directory
-writetable("$WORKDIR/paired_seq_counts.csv", test2)
+writetable("$WORKDIR/test.csv", test2)
 
 
 
