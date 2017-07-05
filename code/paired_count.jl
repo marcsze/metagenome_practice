@@ -16,8 +16,8 @@ d_files = ["ERR478975", "ERR478971", "ERR478968", "ERR478984",
 # Set up default command arguments for pipeline
 file_suffix = "_hrm_r2.fastq"
 
-# Create empty vector to store counts
-test = []
+# Create empty dictionary to store matched data
+test = Dict()
 
 # Overall loop to calculate seq counts
 for sample in d_files
@@ -26,16 +26,27 @@ for sample in d_files
     run(pipeline(`grep '^@' $WORKDIR/$sample$file_suffix`, "$WORKDIR/test.txt"))
 
     # get total counts of sequences by counting lines in temp file
-    test = push!(test, countlines("$WORKDIR/test.txt"))
+    test[sample] = countlines("$WORKDIR/test.txt")
 
     # Remove the temporary file
     run(`rm $WORKDIR/test.txt`)
 
 end
 
+# Create empty vector to hold counts
+total_counts = []
+
+# Create a vector with the seqeunce counts
+for sequence in d_files
+
+    # Append new counts to the end of the vector being used
+    total_counts = push!(total_counts, test[sequence])
+
+end
+
 # Create a data frame with the data
 test2 = DataFrame(  Samples = d_files, 
-                    Seq_counts  = test)
+                    Seq_counts  = total_counts)
 
 # Save the results to the working directory
 writetable("$WORKDIR/paired_seq_counts.csv", test2)
